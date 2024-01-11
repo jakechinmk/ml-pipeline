@@ -1,3 +1,16 @@
+overall:
+  preprocess: True
+  input_path: ./data/cs-training.csv
+  exploration_path: ./output/exploration_{}.html
+  experiment_path: ./output/experiment.pkl
+  output_path: ./output/processed.csv
+  data_path: ./output/processed.csv
+  model_path: ./output/model.pkl
+  explainer_yaml_path: ./output/explainer.yaml
+  explainer_path: ./output/explainer.dill
+  inference_path: ./data/cs-test.csv
+  predict_path: ./output/predict.csv
+
 pycaret:
   problem: classification
   setup:
@@ -8,7 +21,7 @@ pycaret:
     log_plots: True
     log_data: True
     fold: 5
-    train_size: 0.7
+    train_size: 0.75
     numeric_features:
       - RevolvingUtilizationOfUnsecuredLines
       - age
@@ -54,15 +67,3 @@ pycaret:
 preprocessing:
   missing:
     threshold: 0.5
-
-overall:
-  preprocess: True
-  input_path: ./data/cs-training.csv
-  exploration_path: ./output/exploration_{}.html
-  experiment_path: ./output/experiment.pkl
-  output_path: ./output/processed.csv
-  data_path: ./output/processed.csv
-  model_path: ./output/model.pkl
-  explainer_path: ./output/explainer.html
-  inference_path: ./data/cs-test.csv
-  predict_path: ./output/predict.csv

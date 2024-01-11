@@ -1,11 +1,11 @@
 import argparse
-import pandas as pd
 import yaml
+import pandas as pd
 
-from pycaret.classification import ClassificationExperiment
+from pycaret.classification import *
 from typing import Dict
 
-class Inference:
+class Deployment:
     def pycaret_setup(self):
         # df = pd.read_csv(self.overall_config.get('data_path'))
         df = pd.read_csv(self.overall_config.get('input_path'))
@@ -21,24 +21,14 @@ class Inference:
             # user will always need to input the data in this sense
             self.exp.setup(data=df, preprocess=False)
             self.exp.save_experiment(self.overall_config.get('experiment_path'))
-
-    def predict(self):
-        df = pd.read_csv(self.overall_config.get('inference_path'))
-        target = self.pycaret_config.get('setup').get('target')
-        if target in df.columns:
-            df.drop(columns=target, inplace=True)
-
-        model = self.exp.load_model(self.model_config.get('method'))
-        df_prediction = self.exp.predict_model(model, data=df)
-        col_list = ['prediction_score']
-        df_prediction = df_prediction.loc[:, col_list]
-        df_prediction.rename(columns={
-            'prediction_score':'Probability',
-        }, inplace=True)
-        df_prediction.loc[:, 'Id'] = df_prediction.index
-        df_prediction.to_csv(self.overall_config.get('predict_path'), index=False)
     
-    def __init__(self, config:Dict) -> None:
+    def create_deploy_config(self):
+        model = self.exp.load_model(self.model_config.get('method'))
+        model_name = model.named_steps.get('trained_model')
+        self.exp.create_api(model, self.model_config.get('method'))
+        self.exp.create_docker(model, self.model_config.get('method'))
+
+    def __init__(self, config:Dict):
         self.exp = ClassificationExperiment()
         self.pycaret_config = config.get('pycaret')
         self.overall_config = config.get('overall')
@@ -52,6 +42,6 @@ if __name__ == '__main__':
     with open(args.config, 'r') as f:
         config = yaml.safe_load(f)
     
-    pipeline = Inference(config=config)
+    pipeline = Deployment(config=config)
     pipeline.pycaret_setup()
-    pipeline.predict()
+    pipeline.create_deploy_config()

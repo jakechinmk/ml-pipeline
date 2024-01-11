@@ -6,23 +6,14 @@ from pycaret.classification import ClassificationExperiment
 from typing import Dict
 
 class Model:
-    @staticmethod
-    def preprocess(df:pd.DataFrame):
-        drop_col = 'indicator'
-        mask = df.loc[:, drop_col] == 'train'
-        train_df = df.loc[mask, :].copy(deep=True).drop(columns=[drop_col])
-        test_df = df.loc[~mask, :].copy(deep=True).drop(columns=[drop_col])
-        return train_df, test_df
-
     def pycaret_setup(self):
-        df = pd.read_csv(self.overall_config.get('data_path'))
+        # df = pd.read_csv(self.overall_config.get('data_path'))
+        df = pd.read_csv(self.overall_config.get('input_path'))
         if self.overall_config.get('preprocess'):
             # this is to get back the original preprocess pkl from preprocessing script
-            train_df, test_df = self.preprocess(df)
             self.exp = self.exp.load_experiment(self.overall_config.get('experiment_path'),
-                                                data=train_df,
-                                                test_data=test_df,
-                                                preprocess_data=False                                     
+                                                data=df,
+                                                preprocess_data=True                                     
                                                 )
         else:
             # this is use when data is already preprocess without using preprocess module

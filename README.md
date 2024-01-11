@@ -54,8 +54,13 @@ Config.yaml file will have a few sections:
 
 ### Strategy
 
-Based on the ``exploration_raw.html``, the missing value in each feature is not more than 50%, hence it's okay to impute values. Median is choosen in general as it is more robust to outlier. Several features are bin to avoid outliers as well. The target is imbalance, hence the current handling method will be using SMOTE to generate synthetic data sample (this will need to be handle with care, will need to check on the test dataset performance instead of test dataset performance). The current metric will be AUC although it will be better using recall (cost of losing loan capital > cost of losing a potential customer). Based on the model performance, it will be expected to spend more effort to understand what will be the error lies in instead of just checking a few metrics. 
+Based on the ``exploration_raw.html``, the missing value in each feature is not more than 50%, hence it's okay to impute values. Median is choosen in general as it is more robust to outlier. Several features are bin to avoid outliers as well. The target is imbalance, hence the current handling method will be using SMOTE to generate synthetic data sample (this will need to be handle with care, will need to check on the test dataset performance instead of test dataset performance). The current metric will be AUC although it will be better using recall (cost of losing loan capital > cost of losing a potential customer). Based on the model performance, it will be expected to spend more effort to understand what will be the error lies in instead of just checking a few metrics.
 
+From the eda, it doesn't seems that we can split it in a linear space.
+
+As for the model used, since there is no one best model works for every situation, it's better to use what is available and compare the results. As for the demo wise, it's always recommended to change ``compare`` to ``lr`` or ``dt`` in the section of ``pycaret model method``from ``config.yaml`` and also ``train_size`` to ``0.99``in ``pycaret setup`` in ``config.yaml`` to reduce explainer generation time.
+
+For further ``method``, please look for [create_model estimators](https://pycaret.readthedocs.io/en/latest/api/classification.html#pycaret.classification.create_model)
 
 ## Objectives
 
@@ -75,8 +80,8 @@ The current structure is not as per suggested in the documents. That will be con
 - The current design is not robust enough to handle every situation
   - prepocessing steps: cannot take in extra self-defined cleaning pipeline.
   - training steps: have not included the list to exclude when doing comparison
-  - validator steps: the pipeline is taking too slow while running explainer dashboard
-  - validate steps: mlflow is not recording the plots in a proper manner
+  - test steps: the pipeline is taking too slow while running explainer dashboard
+  - validator steps: mlflow is not recording the plots in a proper manner
   - multiple class are using the same function, will need to redesign such that they inherit from a main base class.
 - Model performance evaluation
   - Could be better by including samples that is wrongly predicted in the holdout sample

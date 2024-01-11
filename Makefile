@@ -19,6 +19,15 @@ test:
 inference:
 	poetry run python3 pipeline.py inference --config ./config/config.yaml
 
+deploy:
+	poetry run python3 pipeline.py deploy --config ./config/config.yaml
+
+api:
+	poetry run python3 compare.py
+
+run:
+	make preprocess exploration train inference deploy test 
+
 .PHONY:
 	make env
 	make preprocess

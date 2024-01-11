@@ -35,9 +35,14 @@ class Pipeline:
         model.train()
         
     def validate(self):
-        val = Validator(config=config)
-        validate.pycaret_setup()
-        validate.explainer()
+        val = Validator(config=self.config)
+        val.pycaret_setup()
+        val.explainer()
+    
+    def deploy(self):
+        dep = Deployment(config=self.config)
+        dep.pycaret_setup()
+        dep.create_deploy_config()
 
     def __init__(self, config_path:Path) -> None:
         self.config = self.read_config(config_path)
@@ -58,8 +63,10 @@ if __name__ == '__main__':
         pipeline.train()
     elif args.function == 'inference':
         pipeline.inference()
-    elif args.function == 'test':
+    elif args.function == 'validate':
         pipeline.validate()
+    elif args.function == 'deploy':
+        pipeline.deploy()
     else:
         print('Please provide the correct function')
     print(f'done running {args.function}')
