@@ -1,0 +1,68 @@
+pycaret:
+  problem: classification
+  setup:
+    target: SeriousDlqin2yrs
+    session_id: 123
+    experiment_name: fluid-credit-scoring
+    log_experiment: True
+    log_plots: True
+    log_data: True
+    fold: 5
+    train_size: 0.7
+    numeric_features:
+      - RevolvingUtilizationOfUnsecuredLines
+      - age
+      - DebtRatio
+      - MonthlyIncome
+      - NumberOfTime30-59DaysPastDueNotWorse
+      - NumberOfTimes90DaysLate
+      - NumberOfTime60-89DaysPastDueNotWorse
+      - NumberOfOpenCreditLinesAndLoans
+      - NumberRealEstateLoansOrLines
+      - NumberOfDependents
+    bin_numeric_features:
+      - NumberOfTime30-59DaysPastDueNotWorse
+      - NumberOfTimes90DaysLate
+      - NumberOfTime60-89DaysPastDueNotWorse
+      - NumberOfOpenCreditLinesAndLoans
+      - NumberRealEstateLoansOrLines
+      - NumberOfDependents
+    # group_features:
+    #   delinquency:
+    #     - NumberOfTime30-59DaysPastDueNotWorse
+    #     - NumberOfTimes90DaysLate
+    #     - NumberOfTime60-89DaysPastDueNotWorse
+    categorical_features: null
+    numeric_imputation: median
+    imputation_type: simple
+    categorical_imputation: mode
+    fix_imbalance: True
+    # remove_multicollinearity: True
+    # multicollinearity_threshold: 0.9
+    normalize: True
+    normalize_method: robust
+
+  model:
+    metric: AUC
+    method: compare
+    n_select: 5
+    tune: False
+    ensemble: False
+    blend: False
+    stack: False
+
+preprocessing:
+  missing:
+    threshold: 0.5
+
+overall:
+  preprocess: True
+  input_path: ./data/cs-training.csv
+  exploration_path: ./output/exploration_{}.html
+  experiment_path: ./output/experiment.pkl
+  output_path: ./output/processed.csv
+  data_path: ./output/processed.csv
+  model_path: ./output/model.pkl
+  explainer_path: ./output/explainer.html
+  inference_path: ./data/cs-test.csv
+  predict_path: ./output/predict.csv

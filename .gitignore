@@ -1,0 +1,6 @@
+**.log
+**/notebook
+**/output
+**/mlruns
+**/__pycache__
+**.pkl
