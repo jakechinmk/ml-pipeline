@@ -43,7 +43,7 @@ PS: There's are also better way to config the environment using docker images. T
 
 Current repository are heavily dependent on ``config.yaml`` which sit in ``config`` folder.
 
-Config.yaml file will have a few sections:
+``config.yaml`` file will have a few sections:
 
 - pycaret
   - setup (parameters to be used in pycaret [setup](https://pycaret.readthedocs.io/en/latest/api/classification.html#pycaret.classification.setup) function)
