@@ -83,6 +83,7 @@ The current structure is not as per suggested in the documents. That will be con
   - test steps: the pipeline is taking too slow while running explainer dashboard
   - validator steps: mlflow is not recording the plots in a proper manner
   - multiple class are using the same function, will need to redesign such that they inherit from a main base class.
+  - deploy: seems like there are still some bugs with create api and create docker, will need to look into it
 - Model performance evaluation
   - Could be better by including samples that is wrongly predicted in the holdout sample
   - Generating the plots are taking too long time

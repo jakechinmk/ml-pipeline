@@ -1,6 +1,8 @@
 import argparse
-import yaml
+import shutil
+import os
 import pandas as pd
+import yaml
 
 from pycaret.classification import *
 from typing import Dict
@@ -27,6 +29,10 @@ class Deployment:
         model_name = model.named_steps.get('trained_model')
         self.exp.create_api(model, self.model_config.get('method'))
         self.exp.create_docker(model, self.model_config.get('method'))
+        shutil.copy2(f"./{self.model_config.get('method')}.pkl", f"./deployment/{self.model_config.get('method')}.pkl")
+        os.rename(f"./{self.model_config.get('method')}.py", f"./deployment/{self.model_config.get('method')}.py")
+        os.rename(f"./Dockerfile", "./deployment/Dockerfile")
+        
 
     def __init__(self, config:Dict):
         self.exp = ClassificationExperiment()

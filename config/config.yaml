@@ -49,7 +49,7 @@ pycaret:
     numeric_imputation: median
     imputation_type: simple
     categorical_imputation: mode
-    fix_imbalance: True
+    fix_imbalance: False
     # remove_multicollinearity: True
     # multicollinearity_threshold: 0.9
     normalize: True
@@ -58,7 +58,7 @@ pycaret:
   model:
     metric: AUC
     method: compare
-    n_select: 5
+    n_select: 3
     tune: False
     ensemble: False
     blend: False
