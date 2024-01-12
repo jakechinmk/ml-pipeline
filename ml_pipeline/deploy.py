@@ -31,7 +31,8 @@ class Deployment:
         self.exp.create_docker(model, self.model_config.get('method'))
         shutil.copy2(f"./{self.model_config.get('method')}.pkl", f"./deployment/{self.model_config.get('method')}.pkl")
         os.rename(f"./{self.model_config.get('method')}.py", f"./deployment/{self.model_config.get('method')}.py")
-        os.rename(f"./Dockerfile", "./deployment/Dockerfile")
+        os.rename("./Dockerfile", "./deployment/Dockerfile")
+        os.rename("./requirements.txt", './deployment/requirements.txt')
         
 
     def __init__(self, config:Dict):
